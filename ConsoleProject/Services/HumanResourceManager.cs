@@ -29,7 +29,6 @@ namespace ConsoleProject.Services
         //Isci elave eden method
         public void AddEmployee(string fullname, PositionType positionType, int salary, Department departmentname)
         {
-
             //Her departmentde maksimum olabilecek isci ve maksimum verilecek maas.
             if (departmentname.WorkerLimit > departmentname.Employee.Length)
             {
@@ -40,8 +39,6 @@ namespace ConsoleProject.Services
                 }
                 else
                     Console.WriteLine("Maas limiti asilmisdir.");
-                    
-                
             }
             else
                 Console.WriteLine("Isci limiti asilmisdir.");
@@ -121,7 +118,6 @@ namespace ConsoleProject.Services
         //Departmentlerin siyahisini elde eden method
         public Department[] GetDepartments() //
         {
-            // methodun return type-i Department tipinden arraydir.
                     if (_departments.Length != 0)
                     {
                         SumofEmployees();
@@ -136,49 +132,43 @@ namespace ConsoleProject.Services
             {
                 foreach (var item1 in item.Employee)
                 {
-                    int index = Array.IndexOf(item.Employee, item1);
-                    if (item.Employee[index] != null)
+                    //int index = Array.IndexOf(item.Employee, item1);
+                    if (item1 != null)
                     {
                         count++;
                     }
                 }
                 if (item.Employee.Length != 0)
                 {
-                    Console.WriteLine($"Department adi:{item.Name} Isci sayi:{count} Maas Ortalamasi: {item.CalcSalaryAverage()}");
+                    if (item.CalcSalaryAverage() != 0)
+                    {
+                        Console.WriteLine($"Department adi:{item.Name} Isci sayi:{count} Maas Ortalamasi: {item.CalcSalaryAverage()}");
+                    }
                     count = 0;
                 }
                 else
-                    Console.WriteLine("Isci elave edilmeyib.");
+                    Console.WriteLine($"{item.Name} Adli Department e Isci elave edilmeyib.");
             }
         }
         //Iscini silen method.
         public void RemoveEmployee(string name, string fullname)
         {
-            Department department = null;
             foreach (var item in _departments)
             {
-                if (item.Name.ToLower() == name.ToLower())
+                foreach (var item2 in item.Employee)
                 {
-                    department = item;
-                    break;
-                }
-            }
-            Employee employee = null;
-            if (department != null)
-            {
-                foreach (var item in department.Employee)
-                {
-                    if (item.FullName.ToLower() == fullname.ToLower())
+                    if (item.Name == name && item2.FullName == fullname)
                     {
-                        employee = item;
+                        int i;
+                        int pos;
+                        pos = Array.IndexOf(item.Employee, item2);
+                        for (i = pos; i < item.Employee.Length - 1; i++)
+                        {
+                            item.Employee[i] = item.Employee[i + 1];
+                        }
+                        Array.Resize(ref item.Employee, item.Employee.Length - 1);
                     }
                 }
-            }
-
-            if (employee != null)
-            {
-                int index = Array.IndexOf(department.Employee, employee);
-                Array.Clear(department.Employee, index, 1);
             }
 
         }

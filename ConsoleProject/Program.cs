@@ -22,7 +22,7 @@ namespace ConsoleProject
                 Console.WriteLine("2.2 Departamentdeki iscilerin siyahisini gostermek");
                 Console.WriteLine("2.3 - Isci elave etmek");
                 Console.WriteLine("2.4 - Isci uzerinde deyisiklik etmek");
-                Console.WriteLine("2.5 - Departamentden isci silinmes");
+                Console.WriteLine("2.5 - Departamentden isci silinmesi");
 
 
 
@@ -117,10 +117,7 @@ namespace ConsoleProject
                     return;
                 }
 
-                //Departamentde isci varsa siyahi verilsin, hec bir isci yoxdursa bildiris verilsin.
-
                 humanservices.GetDepartments();
-
 
             }
             //Departmenti deyisen method
@@ -157,10 +154,15 @@ namespace ConsoleProject
             {
                 if (humanservices.Departments.Length != 0)
                 {
+                    int typeint;
+                    string fullname;
+                    do
+                    {
+                        Console.WriteLine("Ad ve Soyad girin:");
 
+                        fullname = Console.ReadLine();
 
-                    Console.WriteLine("Ad ve Soyad girin:");
-                    string fullname = Console.ReadLine();
+                    } while (int.TryParse(fullname, out typeint));
                     //Departments arrayindeki Departmentleri konsola cixaran alqoritm
                     for (int j = 0; j < humanservices.Departments.Length; j++)
                     {
@@ -212,41 +214,60 @@ namespace ConsoleProject
             //Iscinin maas ve vezifesini deyisen method.
             static void EditEmployee(ref HumanResourceManager humanservices)
             {
-                //Isci id si daxil edilir meselen : ID1001
-                Console.WriteLine("Isci nomresini daxil edin:");
-                string no = Console.ReadLine();
-                //Isci sahesi
-                Console.WriteLine("Pozisiyalar");
-                string[] typeName = Enum.GetNames(typeof(PositionType));
-                for (int i = 0; i < typeName.Length; i++)
+                if (humanservices.Departments.Length != 0)
                 {
-                    Console.WriteLine($"{i + 1} {typeName[i]}");
-                }
-                string typeStr;
-                int typeInt;
-                //Yeni sahe ile evez olunur.
-                Console.WriteLine("Yeni Pozisiya secin");
-                typeStr = Console.ReadLine();
+                    foreach (var item in humanservices.Departments)
+                    {
 
-                //Iscinin input-unun duzgunluyu yoxlanilir.
-                while (!int.TryParse(typeStr, out typeInt) || typeInt < 0 || typeInt > typeName.Length)
+                        if (item.Employee.Length != 0)
+                        {
+                            //Isci id si daxil edilir meselen : ID1001
+                            Console.WriteLine("Isci nomresini daxil edin:");
+                            string no = Console.ReadLine();
+                            //Isci sahesi
+                            Console.WriteLine("Pozisiyalar");
+                            string[] typeName = Enum.GetNames(typeof(PositionType));
+                            for (int i = 0; i < typeName.Length; i++)
+                            {
+                                Console.WriteLine($"{i + 1} {typeName[i]}");
+                            }
+                            string typeStr;
+                            int typeInt;
+                            //Yeni sahe ile evez olunur.
+                            Console.WriteLine("Yeni Pozisiya secin");
+                            typeStr = Console.ReadLine();
+
+                            //Iscinin input-unun duzgunluyu yoxlanilir.
+                            while (!int.TryParse(typeStr, out typeInt) || typeInt < 0 || typeInt > typeName.Length)
+                            {
+                                Console.WriteLine("Duzgun position daxil edin.");
+                                typeStr = Console.ReadLine();
+                            }
+                            PositionType positionType = (PositionType)(typeInt);
+                        Start:
+                            //Yeni maas daxil edilir.
+                            string salarystring;
+                            int salary;
+                            do
+                            {
+                                Console.WriteLine("Yeni Maas teyin edin:");
+                                salarystring = Console.ReadLine();
+                            } while (!int.TryParse(salarystring, out salary) || salary < 0);
+                            if (salary < 250)
+                            {
+                                Console.WriteLine("minimum maas 250 olabilmez");
+                                goto Start;
+                            }
+                            humanservices.EditEmployee(no, positionType, salary);
+                        }
+                        else
+                            Console.WriteLine("Isci yoxdur.");
+                    }
+                }
+                else
                 {
-                    Console.WriteLine("Duzgun position daxil edin.");
-                    typeStr = Console.ReadLine();
+                    Console.WriteLine("Department yoxdur.");
                 }
-                PositionType positionType = (PositionType)(typeInt);
-            Start:
-                //Yeni maas daxil edilir.
-                Console.WriteLine("Yeni Maas teyin edin:");
-                int salary = int.Parse(Console.ReadLine());
-                if (salary < 250)
-                {
-                    Console.WriteLine("minimum maas 250 olabilmez");
-                    goto Start;
-                }
-                humanservices.EditEmployee(no, positionType, salary);
-
-
             }
             //Butun iscileri ekrana cixaran
             static void ShowEmployees(ref HumanResourceManager humanservices)
@@ -278,9 +299,13 @@ namespace ConsoleProject
                     {
                         Console.WriteLine($"{i + 1} {humanservices.Departments[i].Name}");
                     }
-                    Console.WriteLine("Hansi departmentin iscileri: ");
-                    int j = int.Parse(Console.ReadLine());
-                    
+                    string stringj;
+                    int j;
+                    do
+                    {
+                        Console.WriteLine("Hansi departmentin iscileri: ");
+                        stringj = Console.ReadLine();
+                    } while (!int.TryParse(stringj, out j));
                     if (humanservices.Departments[j - 1].Employee.Length == 0)
                     {
                         Console.WriteLine("Isci teyin edilmeyib");
@@ -309,15 +334,22 @@ namespace ConsoleProject
             //Iscini silen method.
             static void RemoveEmployee(ref HumanResourceManager humanservices)
             {
-                Console.WriteLine("department adi:");
-                string name = Console.ReadLine();
+                foreach (var item in humanservices.Departments)
+                {
+                    if (item.Employee.Length != 0)
+                    {
+                        Console.WriteLine("department adi:");
+                        string name = Console.ReadLine();
 
-                Console.WriteLine("isci adini daxil et:");
-                string fullname = Console.ReadLine();
+                        Console.WriteLine("isci adini daxil et:");
+                        string fullname = Console.ReadLine();
 
-                humanservices.RemoveEmployee(name, fullname);
+                        humanservices.RemoveEmployee(name, fullname);
+                    }
+                    else
+                        Console.WriteLine("Isci yoxdur.");
+                }
             }
-
         }
 
     }

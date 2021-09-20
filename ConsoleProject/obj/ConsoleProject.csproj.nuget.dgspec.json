@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\memme\\source\\repos\\ConsoleProject\\ConsoleProject\\ConsoleProject.csproj": {}
+    "C:\\Users\\memme\\OneDrive\\Masaüstü\\Console.Project\\ConsoleProject\\ConsoleProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\memme\\source\\repos\\ConsoleProject\\ConsoleProject\\ConsoleProject.csproj": {
+    "C:\\Users\\memme\\OneDrive\\Masaüstü\\Console.Project\\ConsoleProject\\ConsoleProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\memme\\source\\repos\\ConsoleProject\\ConsoleProject\\ConsoleProject.csproj",
+        "projectUniqueName": "C:\\Users\\memme\\OneDrive\\Masaüstü\\Console.Project\\ConsoleProject\\ConsoleProject.csproj",
         "projectName": "ConsoleProject",
-        "projectPath": "C:\\Users\\memme\\source\\repos\\ConsoleProject\\ConsoleProject\\ConsoleProject.csproj",
+        "projectPath": "C:\\Users\\memme\\OneDrive\\Masaüstü\\Console.Project\\ConsoleProject\\ConsoleProject.csproj",
         "packagesPath": "C:\\Users\\memme\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\memme\\source\\repos\\ConsoleProject\\ConsoleProject\\obj\\",
+        "outputPath": "C:\\Users\\memme\\OneDrive\\Masaüstü\\Console.Project\\ConsoleProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\memme\\AppData\\Roaming\\NuGet\\NuGet.Config",

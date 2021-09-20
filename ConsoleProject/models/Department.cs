@@ -88,11 +88,16 @@ namespace ConsoleProject.models
                     }
                     sum = (sum + item.Salary);
                 }
-                
             }
-                    
 
-            return sum / count;
+            if (sum == 0 && count == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                return sum/count;
+            }
             
             
         }
